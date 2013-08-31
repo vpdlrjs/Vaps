@@ -57,6 +57,16 @@ public class HomeController {
 	public String login(){
 		return "login/login";
 	}
+
+	@RequestMapping(value="/what")
+	public String what(){
+		return "about/what";
+	}
+	
+	@RequestMapping(value="/developer")
+	public String developer(){
+		return "about/developer";
+	}
 	
 	//회원가입
 	@RequestMapping(value="/memJoin") 
@@ -93,7 +103,6 @@ public class HomeController {
 		map.put("id", request.getParameter("id"));
 		//DB에 저장된 패스워드가 암호화가 되어 있어 로그인할때 똑같이 암호화한뒤 저장된 패스워드랑 비교해야한다.
 		map.put("pwd", ee.TripleDesEncoding(request.getParameter("pwd")));
-		
 		try{
 			MembersAction ma=new MembersAction(membersDao);
 			members=ma.accessMembers(map);
