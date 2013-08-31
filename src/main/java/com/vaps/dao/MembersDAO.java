@@ -1,17 +1,26 @@
 package com.vaps.dao;
 
+// 주의!!!! insert할때는 insert!!!
+// selectlist => 레코드가 여러개일때
+// selectone => 레코드가 한개일때~
+
 import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.vaps.bean.BoardList;
 import com.vaps.bean.Members;
 
 public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface {
-
+	
+	// 회원가입 sql
+	@Override
+	public int memInsert(Members mb) {
+		return getSqlSession().insert("MembersInterface.memInsert", mb);
+	}
+		
+	//login
 	public boolean accessMember(Members members){
 		boolean result=false;
 		int count=getSqlSession().selectOne("MembersInterface.getLoginResult", members);
@@ -22,7 +31,6 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 		return result;
 	}
 	
-	//login 로직 start
 	@Override
 	public int getLoginResult(Map<String, String> map) {
 		// TODO Auto-generated method stub
@@ -34,35 +42,31 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 		// TODO Auto-generated method stub
 		return getSqlSession().selectOne("MembersInterface.getMemberInfo", id);
 	}
-	//login 로직 end
+	//login - end
 
+	
+	
+	
+	//---------------아래는 수정해야 할 코드
 	@Override
 	public List<BoardList> getBoardList(int pageNum) {
 		// TODO Auto-generated method stub
-		return getSqlSession().selectList("MembersInterface.getBoardList", pageNum);
+		return null;
 	}
 
 	@Override
 	public int getPageCount() {
 		// TODO Auto-generated method stub
-		return getSqlSession().selectOne("MembersInterface.getPageCount");
+		return 0;
 	}
 
 	@Override
 	public BoardList getContents(int bnum) {
 		// TODO Auto-generated method stub
-		return getSqlSession().selectOne("MembersInterface.getContents", bnum);
+		return null;
 	}
-
 
 	
-	@Override
-	public int memInsert(Members mb) {
-		// 주의!!!! insert할때는 insert!!!
-		// selectlist => 레코드가 여러개일때
-		// selectone => 레코드가 한개일때~
-		return getSqlSession().insert("MembersInterface.memInsert", mb);
-	}
 
 
 }

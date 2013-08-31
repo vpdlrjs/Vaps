@@ -9,35 +9,17 @@
 	<resultMap type="al" id="al" />
 	<resultMap type="Map" id="Map" />	
 	
+	<!-- 회원가입 sql -->
+	<insert id="memInsert" parameterType="members">
+		INSERT INTO M VALUES(#{m_id}, #{m_nick}, #{m_pwd}, #{m_phone}, #{m_addr}, default, default)
+	</insert>
 	
-	<select id="getLoginResult" resultType="Integer" parameterType="Map">
-		SELECT count(*) FROM MINFO WHERE ID=#{id} AND PWD=#{pwd}
+	<!-- 로그인처리 sql -->
+		<select id="getLoginResult" resultType="Integer" parameterType="Map">
+		SELECT count(*) FROM M WHERE M_ID=#{id} AND M_PWD=#{pwd}
 	</select>
 	
 	<select id="getMemberInfo" resultType="members" parameterType="java.lang.String">
-		SELECT ID, MNAME, GNAME, POINT FROM MINFO WHERE ID=#{id}
+		SELECT M_ID, M_NICK, M_PWD, M_PHONE, M_ADDR, M_POINT, M_AUTH FROM M WHERE M_ID=#{id}
 	</select>
-	
-	<select id="getBoardList" resultType="board" parameterType="Integer">
-		<![CDATA[
-			SELECT * FROM BLIST_1 WHERE RNUM>=#{pageNum}*10-9 AND RNUM<=#{pageNum}*10
-		]]>
-	</select>
-	
-	<select id="getPageCount" resultType="Integer">		
-		SELECT COUNT(*) FROM BLIST_1
-	</select>
-	
-	<select id="getContents" resultType="board" parameterType="Integer">
-		SELECT * FROM BLIST_1 WHERE BNUM=#{bnum}
-	</select>
-	
-	
-
-	
-	
-	
-	<insert id="memInsert" parameterType="members">
-		INSERT INTO M VALUES(#{id}, #{pwd}, #{mname}, #{birth}, #{addr}, #{phone}, default)
-	</insert>
 </mapper>

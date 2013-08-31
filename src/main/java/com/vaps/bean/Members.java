@@ -2,65 +2,53 @@ package com.vaps.bean;
 
 public class Members {
 	// members 테이블과 연동할 java bean
-	private String id;
-	private String pwd;
-	private String mname;
-	private String gname;
-	private String birth;
-	private String addr;
-	private String phone;
-	private int point;
-	
-	public String getId() {
-		return id;
+	private String m_id;
+	private String m_nick;
+	private String m_pwd;
+	private String m_phone;
+	private String m_addr;
+	private int m_point;
+	private int m_auth;
+	public String getM_id() {
+		return m_id;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setM_id(String m_id) {
+		this.m_id = m_id;
 	}
-	public String getPwd() {
-		return pwd;
+	public String getM_nick() {
+		return m_nick;
 	}
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
+	public void setM_nick(String m_nick) {
+		this.m_nick = m_nick;
 	}
-	public String getMname() {
-		return mname;
+	public String getM_pwd() {
+		return m_pwd;
 	}
-	public void setMname(String mname) {
-		this.mname = mname;
+	public void setM_pwd(String m_pwd) {
+		this.m_pwd = m_pwd;
 	}
-	public String getGname() {
-		return gname;
+	public String getM_phone() {
+		return m_phone;
 	}
-	public void setGname(String gname) {
-		this.gname = gname;
+	public void setM_phone(String m_phone) {
+		this.m_phone = m_phone;
 	}
-	public String getBirth() {
-		return birth;
+	public String getM_addr() {
+		return m_addr;
 	}
-	public void setBirth(String birth) {
-		this.birth = birth;
+	public void setM_addr(String m_addr) {
+		this.m_addr = m_addr;
 	}
-	public String getAddr() {
-		return addr;
+	public int getM_point() {
+		return m_point;
 	}
-	public void setAddr(String addr) {
-		this.addr = addr;
+	public void setM_point(int m_point) {
+		this.m_point = m_point;
 	}
-	public String getPhone() {
-		return phone;
+	public int getM_auth() {
+		return m_auth;
 	}
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setM_auth(int m_auth) {
+		this.m_auth = m_auth;
 	}
-	public int getPoint() {
-		return point;
-	}
-	public void setPoint(int point) {
-		this.point = point;
-	}
-	
-	
-	
-	
 }

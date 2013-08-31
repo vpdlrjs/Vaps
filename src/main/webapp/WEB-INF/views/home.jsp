@@ -48,6 +48,42 @@
 				</td>
 			</tr>
 		</table>
+
+<table>
+
+		<tr>
+			<td colspan=2 align="center">Session Info</td>
+		</tr>
+			<tr>
+				<td>id</td>
+				<td>${members.m_id }</td>
+			</tr>
+			<tr>
+				<td>nick</td>
+				<td>${members.m_nick }</td>
+			</tr>
+			<tr>
+				<td>pwd</td>
+				<td>${members.m_pwd }</td>
+			</tr>
+			<tr>
+				<td>phone</td>
+				<td>${members.m_phone }</td>
+			</tr>
+			<tr>
+				<td>addr</td>
+				<td>${members.m_addr }</td>
+			</tr>
+			<tr>
+				<td>point</td>
+				<td>${members.m_point }</td>
+			</tr>
+			<tr>
+				<td>auth</td>
+				<td>${members.m_auth }</td>
+			</tr>
+		</table>
+		
 <!-- 
 	버튼 CSS 관련 사용법을 얻을 수 있다.
 	http://www.red-team-design.com/wp-content/uploads/2011/09/awesome-css3-buttons.html
@@ -57,6 +93,5 @@
 </html>
 <!--
 유효성 체크 코드를 넣었음. 하나라도 입력이 안됐다면 다음으로 넘어가지 않는다.
-/SpringBoard/src/main/java/com/school/board/HomeController.java
-으로가서 /join에 대한 처리를 작성한다.
+HomeController.java 으로가서 /join에 대한 처리를 작성한다.
 -->

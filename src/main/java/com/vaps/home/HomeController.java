@@ -1,18 +1,12 @@
 package com.vaps.home;
 
-import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +15,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.vaps.userclass.EncryptionEncoding;
 import com.vaps.dao.MembersDAO;
 import com.vaps.bean.Members;
-import com.vaps.action.BoardListAction;
 import com.vaps.action.MembersAction;
 
 
@@ -56,21 +49,20 @@ public class HomeController {
 	public String join(){
 		return "join";
 	}
-	@RequestMapping(value="/memJoin") //회원가입
+	
+	//회원가입
+	@RequestMapping(value="/memJoin") 
 	public String memJoin(HttpServletRequest request,Model model){
 		String result="join";
 		Members mb=new Members();
 		
 		try{
 			request.setCharacterEncoding("UTF-8");
-			mb.setId(request.getParameter("id"));
-			mb.setPwd(ee.TripleDesEncoding(request.getParameter("pwd"))); // 패스워드 인코딩
-				//디코딩 테스트
-			//mb.setMname(request.getParameter("name"));
-			mb.setMname(ee.TripleDesEncoding(request.getParameter("name")));
-			mb.setBirth(request.getParameter("birth"));
-			mb.setAddr(request.getParameter("addr"));
-			mb.setPhone(request.getParameter("phone"));
+			mb.setM_id(request.getParameter("id"));
+			mb.setM_nick(request.getParameter("nick"));
+			mb.setM_pwd(ee.TripleDesEncoding(request.getParameter("pwd"))); // 패스워드 인코딩
+			mb.setM_phone(request.getParameter("phone"));
+			mb.setM_addr(request.getParameter("addr"));
 
 			MembersAction ma=new MembersAction(membersDao);
 			result = ma.memInsert(mb);
@@ -79,6 +71,41 @@ public class HomeController {
 		catch(Exception e){
 			e.printStackTrace();
 		}
+		return result;
+	}
+	
+	// login 성공
+	@RequestMapping(value="access")
+	public String mInfo(HttpServletRequest request, Model model) throws Exception{
+		String result="home";
+		
+		Members members=new Members();
+		
+		Map<String,String> map=new HashMap<String, String>();
+		map.put("id", request.getParameter("id"));
+		//DB에 저장된 패스워드가 암호화가 되어 있어 로그인할때 똑같이 암호화한뒤 저장된 패스워드랑 비교해야한다.
+		map.put("pwd", ee.TripleDesEncoding(request.getParameter("pwd")));
+		
+		try{
+			MembersAction ma=new MembersAction(membersDao);
+			members=ma.accessMembers(map);
+			
+			if(members!=null){
+				session=request.getSession();
+				session.setAttribute("uid", members.getM_id());
+				model.addAttribute("members",members);
+				result=boardList(request,model);
+			}else{
+				if(session != null){ session=null;}
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+	private String boardList(HttpServletRequest request, Model model) {
+		String result="home";
 		return result;
 	}
 }

@@ -1,0 +1,20 @@
+[회원가입]
+	1. join.jsp - memJoin
+	2. HomeController.java - @RequestMapping(value="/memJoin")
+	3. MembersAction.java - String memInsert(Members mb)
+	4. MembersDAO.java - int memInsert(Members mb)
+	5. MembersInterface.memInsert - sqlMapper.xml 으로 이동함
+	6. Insert 쿼리를 실행
+	7. MembersAction.java - String memInsert(Members mb) 에서 쿼리를 성공하면 1을 반환 후 home.jsp 으로 이동함
+
+[로그인]
+	1. home.jsp - access
+	2. HomeController.java - @RequestMapping(value="access")
+	3. DB에 저장된 패스워드가 암호화가 되어 있어 로그인할때 똑같이 암호화한뒤 저장된 패스워드랑 비교해야한다.
+		map.put("pwd", ee.TripleDesEncoding(request.getParameter("pwd")));
+	4. MembersAction.java - Members accessMembers(Map<String,String> map)
+	5. MembersDAO.java - int getLoginResult(Map<String, String> map) - MembersDAO.java - MembersInterface.getLoginResult // 입력한 id,pwd를 확인하기 위해
+	6. MembersDAO.java - Members getMembersInfo(String id) - MembersDAO.java - MembersInterface.getMemberInfo // id를 조건으로 하여 회원정보를 모두 쿼리함
+		MembersInterface.getMemberInfo의 정보는 sqlMapper.xml안에 들어 있다.
+		** 주의사항이 있는데 DB에 저장된 Attribute 이름과 Members.java(bean)에 저장된 변수명과 일치해야지 selec 결과를 가져올 수 있다.
+	7. 다시 return 해서 돌아가면 HomeController.java - @RequestMapping(value="access") 여기서 home.jsp 으로 돌아간다.
