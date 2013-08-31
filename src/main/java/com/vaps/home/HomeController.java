@@ -40,14 +40,22 @@ public class HomeController {
 	private EncryptionEncoding ee;
 	
 	
-// URL	
+// URL
+// 기능별로 폴더를 나누어 작업할 것이니 리턴 경로를 확인하자!
+	
 	@RequestMapping(value="/")
 	public String home(){
 		return "home";
 	}
 	@RequestMapping(value="/join")
 	public String join(){
-		return "join";
+		//join 파일 위치가 /WEB-INF/views/login/join.jsp 이다.
+		return "login/join";
+	}
+	
+	@RequestMapping(value="/login")
+	public String login(){
+		return "login/login";
 	}
 	
 	//회원가입

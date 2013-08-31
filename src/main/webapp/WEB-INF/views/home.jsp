@@ -9,89 +9,48 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Home</title>
 <link rel="styleSheet" type="text/css" href="${pageContext.request.contextPath}/css/bt.css" />
-<script>
-	function formCheck() {
-		var length = document.forms[0].length - 1;
-
-		for ( var i = 0; i < length - 1; i++) {
-			if (document.forms[0][i].value == null
-					|| document.forms[0][i].value == "") {
-
-				alert(document.forms[0][i].name + "을/를 입력하세요.");
-				document.forms[0][i].focus();
-				return false;
-			}
-		}
-	}
-	
-</script>
 
 </head>
+	<%@include file="/WEB-INF/views/top/title.jsp" %>
+	<%@include file="/WEB-INF/views/top/menu.jsp" %>
+
 <body>
-	<h1>Login page!</h1>
-
-	<form action="access" name="LogFrm" method="post"
-		onsubmit="return formCheck();">
-		<table>
-			<tr>
-				<td>아이디:</td>
-				<td><input class="intxt" type="text" name="id" /></td>
-			</tr>
-			<tr>
-				<td>비밀번호:</td>
-				<td><input class="intxt" type="password" name="pwd" /></td>
-			</tr>
-			<tr>
-				<td colspan=2>
-				<input class="button" type="submit" value="로그인">
-				<a href="javascript:location.href='/join'" class="button">회원가입</a>				
-				</td>
-			</tr>
-		</table>
-
-<table>
-
+<div style="padding: 30px  20px  30px  60px ;" >
+	<h1>Vaps Shop!</h1>
+	<table>
 		<tr>
-			<td colspan=2 align="center">Session Info</td>
+			<td colspan=2 >Session Info</td>
 		</tr>
-			<tr>
-				<td>id</td>
-				<td>${members.m_id }</td>
-			</tr>
-			<tr>
-				<td>nick</td>
-				<td>${members.m_nick }</td>
-			</tr>
-			<tr>
-				<td>pwd</td>
-				<td>${members.m_pwd }</td>
-			</tr>
-			<tr>
-				<td>phone</td>
-				<td>${members.m_phone }</td>
-			</tr>
-			<tr>
-				<td>addr</td>
-				<td>${members.m_addr }</td>
-			</tr>
-			<tr>
-				<td>point</td>
-				<td>${members.m_point }</td>
-			</tr>
-			<tr>
-				<td>auth</td>
-				<td>${members.m_auth }</td>
-			</tr>
-		</table>
-		
-<!-- 
-	버튼 CSS 관련 사용법을 얻을 수 있다.
-	http://www.red-team-design.com/wp-content/uploads/2011/09/awesome-css3-buttons.html
- -->
-	</form>
+		<tr>
+			<td>id</td>
+			<td>${members.m_id }</td>
+		</tr>
+		<tr>
+			<td>nick</td>
+			<td>${members.m_nick }</td>
+		</tr>
+		<tr>
+			<td>pwd</td>
+			<td>${members.m_pwd }</td>
+		</tr>
+		<tr>
+			<td>phone</td>
+			<td>${members.m_phone }</td>
+		</tr>
+		<tr>
+			<td>addr</td>
+			<td>${members.m_addr }</td>
+		</tr>
+		<tr>
+			<td>point</td>
+			<td>${members.m_point }</td>
+		</tr>
+		<tr>
+			<td>auth</td>
+			<td>${members.m_auth }</td>
+		</tr>
+	</table>
+	</div>
+
 </body>
 </html>
-<!--
-유효성 체크 코드를 넣었음. 하나라도 입력이 안됐다면 다음으로 넘어가지 않는다.
-HomeController.java 으로가서 /join에 대한 처리를 작성한다.
--->

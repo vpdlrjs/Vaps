@@ -26,8 +26,13 @@
 
 
 </head>
+	<%@include file="/WEB-INF/views/top/title.jsp" %>
+	<%@include file="/WEB-INF/views/top/menu.jsp" %>
+	
 <body>
-	<h1>Account profile page!</h1>
+
+<div style="padding: 30px  20px  30px  60px ;" >
+	<h1>Register</h1>
 	<form action="memJoin" name="joinFrm" method="post"
 		onsubmit="return formCheck();">
 		<table>
@@ -58,5 +63,12 @@
 			</tr>
 		</table>
 	</form>
+	</div>
+	
 </body>
 </html>
+
+<%-- 
+	버튼 CSS 관련 사용법을 얻을 수 있다.
+	http://www.red-team-design.com/wp-content/uploads/2011/09/awesome-css3-buttons.html
+ --%>
