@@ -31,7 +31,6 @@ public class EncryptionEncoding {
 	// TripleDES encoding : input data : String type, return data : String 24 글자 문자열
 	// TripleDES Decoding : input data : String type, return data : String
 	public EncryptionEncoding() {
-		// TODO Auto-generated constructor stub
 	}
 
 	// SHA-1 Encryption 

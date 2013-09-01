@@ -47,23 +47,24 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 	
 	
 	
-	//---------------아래는 수정해야 할 코드
+	//-----------------------------
+	// 게시판 관련 로직 sql 문장을 요청한다 sqlMapper.xml 으로...
 	@Override
 	public List<BoardList> getBoardList(int pageNum) {
 		// TODO Auto-generated method stub
-		return null;
+		return getSqlSession().selectList("MembersInterface.getBoardList", pageNum);
 	}
 
 	@Override
 	public int getPageCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return getSqlSession().selectOne("MembersInterface.getPageCount");
 	}
 
 	@Override
-	public BoardList getContents(int bnum) {
+	public BoardList getContents(int B_NUM) {
 		// TODO Auto-generated method stub
-		return null;
+		return getSqlSession().selectOne("MembersInterface.getContents", B_NUM);
 	}
 
 	

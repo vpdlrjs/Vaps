@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.vaps.userclass.EncryptionEncoding;
 import com.vaps.dao.MembersDAO;
 import com.vaps.bean.Members;
+import com.vaps.action.BoardListAction;
 import com.vaps.action.MembersAction;
 
 
@@ -42,7 +43,8 @@ public class HomeController {
 	
 // URL
 // 기능별로 폴더를 나누어 작업할 것이니 리턴 경로를 확인하자!
-	
+//--------------------------------------------------------------
+// 메뉴 관리
 	@RequestMapping(value="/")
 	public String home(){
 		return "home";
@@ -68,6 +70,8 @@ public class HomeController {
 		return "about/developer";
 	}
 	
+//--------------------------------------------------------------
+// 회원 관리
 	//회원가입
 	@RequestMapping(value="/memJoin") 
 	public String memJoin(HttpServletRequest request,Model model){
@@ -111,7 +115,7 @@ public class HomeController {
 				session=request.getSession();
 				session.setAttribute("uid", members.getM_id());
 				model.addAttribute("members",members);
-				result=boardList(request,model);
+				boardList(request,model); // 로그인 뒤에 게시판으로 직행하지 않게함
 			}else{
 				if(session != null){ session=null;}
 			}
@@ -121,8 +125,67 @@ public class HomeController {
 
 		return result;
 	}
-	private String boardList(HttpServletRequest request, Model model) {
+
+//--------------------------------------------------------------
+// 게시판 작업
+	//게시판(질답용도)
+	@RequestMapping(value="/board")
+	public String boardList(HttpServletRequest request, Model model){
 		String result="home";
+		
+		try{
+			BoardListAction ba=new BoardListAction(membersDao);
+			
+			if(session!=null && session.getAttribute("uid")!=""){
+				session=request.getSession();
+				
+				int pageNum=(request.getParameter("pageNum")!=null)? Integer.parseInt(request.getParameter("pageNum")):1;
+				
+				// paging 관련 로직
+				model.addAttribute("pageNum", pageNum);
+				model.addAttribute("blist",ba.getBoardList(pageNum)); //게시글
+				model.addAttribute("paging", ba.getPaging(pageNum)); //[1][2]...<- paging
+				result="board/boardlist";
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	//게시글 보기
+	@RequestMapping(value="/contents")
+	public String listContents(HttpServletRequest request, Model model){
+		String result="boardlist";
+		BoardListAction ba=new BoardListAction(membersDao);
+		try{
+			if(session!=null && session.getAttribute("uid")!=""){
+				int bnum= Integer.parseInt(request.getParameter("bnum"));
+				model.addAttribute("blist", ba.getContents(bnum)); //원글 보기
+//				model.addAttribute("rlist", ba.getReplyList(bnum)); //댓글 보기
+				result="boardContents";
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	@RequestMapping(value= "/boardlistAjax")
+	public String boardListAjax(HttpServletRequest request, Model model) {
+		System.out.println("진입테스트"+request.getParameter("pageNum"));
+		String result= "home";
+		
+		try {
+			BoardListAction ba= new BoardListAction(membersDao);
+			
+			if(session!=null && session.getAttribute("uid")!=""){
+				int pageNum= (request.getParameter("pageNum")!=null)?Integer.parseInt(request.getParameter("pageNum")):1;
+				model.addAttribute("pageNum", pageNum);
+				model.addAttribute("blist", ba.getBoardList(pageNum));
+				result= "boardlistAjax";
+			}
+		} catch (Exception e){
+			e.printStackTrace(); 
+		}		
 		return result;
 	}
 }

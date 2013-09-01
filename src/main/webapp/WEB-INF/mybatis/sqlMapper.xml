@@ -22,4 +22,24 @@
 	<select id="getMemberInfo" resultType="members" parameterType="java.lang.String">
 		SELECT M_ID, M_NICK, M_PWD, M_PHONE, M_ADDR, M_POINT, M_AUTH FROM M WHERE M_ID=#{id}
 	</select>
+	
+	<!-- 게시판 처리 sql -->
+		<!-- 
+			ROWNUM 문제때문에 BOARD 테이블을 직접 사용하지 않고
+			BLIST라는 뷰를 이용해 게시글을 얻는다.
+		 -->
+	<select id="getBoardList" resultType="board" parameterType="Integer">
+		<![CDATA[
+			SELECT * FROM BLIST WHERE B_NO>=#{pageNum}*10-9 AND B_NO<=#{pageNum}*10
+		]]>
+	</select>
+
+	<select id="getPageCount" resultType="Integer">
+		SELECT COUNT(*) FROM BLIST
+	</select>
+
+	<select id="getContents" resultType="board" parameterType="Integer">
+		SELECT * FROM BLIST WHERE B_NUM=#{B_NUM}
+	</select>
+	
 </mapper>

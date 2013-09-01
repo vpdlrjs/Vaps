@@ -1,58 +1,54 @@
 package com.vaps.bean;
 
 import java.sql.Date;
-
+/*
+ * 변수는 소문자로 하자.
+ * db table 변수와 같이 대문자로 똑같이 하면 동작이 안됐다.
+ * B_NUM 이라고 db에서 쓰면 Bean에서는 b_num이라고 써야한다.
+ */
 public class BoardList {
-	private int bnum;
-	private String btitle;
-	private String bcontents;
-	private String bwriter;
-	private String mname;
-	private Date bdate;
-	private int bviews;
-	
-	public int getBnum() {
-		return bnum;
+	private int b_num;
+	private String b_id;
+	private String b_sub;
+	private String b_contents;
+	private Date b_date;
+	private int b_readcount;
+	public int getB_num() {
+		return b_num;
 	}
-	public void setBnum(int bnum) {
-		this.bnum = bnum;
+	public void setB_num(int b_num) {
+		this.b_num = b_num;
 	}
-	public String getBtitle() {
-		return btitle;
+	public String getB_id() {
+		return b_id;
 	}
-	public void setBtitle(String btitle) {
-		this.btitle = btitle;
+	public void setB_id(String b_id) {
+		this.b_id = b_id;
 	}
-	public String getBcontents() {
-		return bcontents;
+	public String getB_sub() {
+		return b_sub;
 	}
-	public void setBcontents(String bcontents) {
-		this.bcontents = bcontents;
+	public void setB_sub(String b_sub) {
+		this.b_sub = b_sub;
 	}
-	public String getBwriter() {
-		return bwriter;
+	public String getB_contents() {
+		return b_contents;
 	}
-	public void setBwriter(String bwriter) {
-		this.bwriter = bwriter;
+	public void setB_contents(String b_contents) {
+		this.b_contents = b_contents;
 	}
-	public String getMname() {
-		return mname;
+	public Date getB_date() {
+		return b_date;
 	}
-	public void setMname(String mname) {
-		this.mname = mname;
+	public void setB_date(Date b_date) {
+		this.b_date = b_date;
 	}
-	public Date getBdate() {
-		return bdate;
+	public int getB_readcount() {
+		return b_readcount;
 	}
-	public void setBdate(Date bdate) {
-		this.bdate = bdate;
-	}
-	public int getBviews() {
-		return bviews;
-	}
-	public void setBviews(int bviews) {
-		this.bviews = bviews;
+	public void setB_readcount(int b_readcount) {
+		this.b_readcount = b_readcount;
 	}
 	
-
+	
 }
