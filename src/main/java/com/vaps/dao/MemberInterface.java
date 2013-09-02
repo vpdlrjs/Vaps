@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.vaps.bean.BoardList;
+import com.vaps.bean.BoardWrite;
 import com.vaps.bean.Members;
 
 
@@ -14,4 +15,5 @@ public interface MemberInterface {
 	public int getPageCount();
 	public BoardList getContents(int bnum);
 	public int memInsert(Members mb);
+	public int wrBoard(BoardWrite wr);
 }

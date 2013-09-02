@@ -10,6 +10,7 @@
 	<typeAliases>
 		<typeAlias alias="members" type="com.vaps.bean.Members"/>
 		<typeAlias alias="board" type="com.vaps.bean.BoardList"/>
+		<typeAlias alias="BoardWrite" type="com.vaps.bean.BoardWrite"/>
 		<typeAlias alias="al" type="java.util.List"/>
 		<typeAlias alias="Map" type="java.util.Map"/>
 	</typeAliases>

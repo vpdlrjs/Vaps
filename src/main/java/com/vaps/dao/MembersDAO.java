@@ -12,6 +12,7 @@ import java.util.Map;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 
 import com.vaps.bean.BoardList;
+import com.vaps.bean.BoardWrite;
 import com.vaps.bean.Members;
 
 public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface {
@@ -67,6 +68,12 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 	public BoardList getContents(int b_num) {
 		// TODO Auto-generated method stub
 		return getSqlSession().selectOne("MembersInterface.getContents", b_num);
+	}
+
+	@Override
+	public int wrBoard(BoardWrite wr) {
+		// TODO Auto-generated method stub
+		return getSqlSession().insert("MembersInterface.setContents", wr);
 	}
 
 	

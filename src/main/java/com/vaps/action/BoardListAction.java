@@ -3,9 +3,10 @@ package com.vaps.action;
 import java.util.List;
 
 
-import com.vaps.bean.BoardList;
-import com.vaps.dao.MembersDAO;
 
+import com.vaps.bean.BoardList;
+import com.vaps.bean.BoardWrite;
+import com.vaps.dao.MembersDAO;
 import com.vaps.userclass.Paging;
 
 public class BoardListAction {
@@ -34,5 +35,10 @@ public class BoardListAction {
 	public BoardList getContents(int bNum) {
 		// TODO Auto-generated method stub
 		return dao.getContents(bNum);
+	}
+	
+	public int writeBoard(BoardWrite wr) {
+		// 게시글 등록
+		return dao.wrBoard(wr);
 	}
 }

@@ -1,10 +1,15 @@
 package com.vaps.home;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -12,11 +17,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.vaps.userclass.EncryptionEncoding;
-import com.vaps.dao.MembersDAO;
-import com.vaps.bean.Members;
 import com.vaps.action.BoardListAction;
 import com.vaps.action.MembersAction;
+import com.vaps.bean.BoardWrite;
+import com.vaps.bean.Members;
+import com.vaps.dao.MembersDAO;
+import com.vaps.userclass.EncryptionEncoding;
 
 
 /**
@@ -167,6 +173,51 @@ public class HomeController {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	//게시글 쓰기 폼
+	@RequestMapping(value="/boardWriteForm")
+	public String boardWrite(){
+		return "board/boardWrite";
+	}
+	
+	//게시글 쓰기(sql 삽입), 등록버튼 눌렀을때
+	@RequestMapping(value="/boardWrite")
+	public void boardWR(HttpServletRequest request, Model model, HttpServletResponse res){
+		try {
+			// DB로 한글 저장시 깨짐 해결함
+			request.setCharacterEncoding("UTF-8");
+			BoardListAction ba= new BoardListAction(membersDao);
+			if(session!=null && session.getAttribute("uid")!=""){
+				BoardWrite wr= new BoardWrite();
+				wr.setB_id((String)session.getAttribute("uid"));
+				wr.setB_sub(request.getParameter("sub"));
+				
+				String str=request.getParameter("contents");
+				// 줄바꿈, 공백 두개 이상! ; textarea에서만 되는 내용
+				str=str.replaceAll("\r\n", "<br>");
+				str=str.replaceAll("\u0020", "&nbsp;");
+				wr.setB_contents(str);
+				
+				PrintWriter out=res.getWriter();
+				if(ba.writeBoard(wr)==1){
+					// 글쓰기 성공하고 /board로 가기 위해서 스크립트 코드 사용
+					// String result ="/board/boardlist"; 이런식으로 가면 정상작동안됨
+					out.println("<script>");
+					out.println("location.href='/board'");
+					out.println("</script>");
+				}
+				else{
+					// 실패시 홈으로 이동
+					out.println("<script>");
+					out.println("location.href='/'");
+					out.println("</script>");
+				}
+
+			}
+		} catch (Exception e){
+			e.printStackTrace(); 
+		}		
 	}
 
 }
