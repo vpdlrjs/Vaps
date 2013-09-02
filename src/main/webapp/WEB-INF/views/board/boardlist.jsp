@@ -24,13 +24,23 @@
 			<c:forEach var="blist" items="${blist}">
 				<tr height="25">
 					<td width="100" align="center">${blist.b_num}</td>
-					<td width="400"><a href="#view_layer"
+					<td width="400"><a href="contents?idx=${blist.b_num}">${blist.b_sub} </a></td>
+					<%--
+					<td width="400"><a href='contents?idx=${blist.b_num}'>${blist.b_sub} </a></td>
+					<td width="400"><a href="contents"
 						onclick="articleView('${blist.b_num}')">${blist.b_sub}</a></td>
+					 --%>
 					<td width="150" align="center">${blist.b_id}</td>
 					<td width="200" align="center">${blist.b_date}</td>
 					<td width="100" align="center">${blist.b_readcount}</td>
 				</tr>
 			</c:forEach>
+			<tr>
+				<td colspan=5>
+					<center>${paging }<p>
+					</center>
+				</td>
+			</tr>
 		</table>
 	</div>
 </body>

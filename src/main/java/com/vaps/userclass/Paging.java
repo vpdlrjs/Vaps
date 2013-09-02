@@ -12,6 +12,11 @@ public class Paging {
 		this.pageNum = pageNum;
 		this.listCount = listCount;
 		this.pageCount = pageCount;
+		
+		//페이징 문제 해결
+		if(pageName.equals("boardlist"))
+			pageName="board";
+		
 		this.pageName = pageName;
 	}
 	

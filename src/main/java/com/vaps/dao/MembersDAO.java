@@ -4,6 +4,8 @@ package com.vaps.dao;
 // selectlist => 레코드가 여러개일때
 // selectone => 레코드가 한개일때~
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -62,9 +64,9 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 	}
 
 	@Override
-	public BoardList getContents(int B_NUM) {
+	public BoardList getContents(int b_num) {
 		// TODO Auto-generated method stub
-		return getSqlSession().selectOne("MembersInterface.getContents", B_NUM);
+		return getSqlSession().selectOne("MembersInterface.getContents", b_num);
 	}
 
 	

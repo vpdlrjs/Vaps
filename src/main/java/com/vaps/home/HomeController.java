@@ -144,7 +144,7 @@ public class HomeController {
 				// paging 관련 로직
 				model.addAttribute("pageNum", pageNum);
 				model.addAttribute("blist",ba.getBoardList(pageNum)); //게시글
-				model.addAttribute("paging", ba.getPaging(pageNum)); //[1][2]...<- paging
+				model.addAttribute("paging",ba.getPaging(pageNum)); //[1][2]...<- paging
 				result="board/boardlist";
 			}
 		} catch(Exception e){
@@ -155,37 +155,18 @@ public class HomeController {
 	//게시글 보기
 	@RequestMapping(value="/contents")
 	public String listContents(HttpServletRequest request, Model model){
-		String result="boardlist";
+		String result="contents";
 		BoardListAction ba=new BoardListAction(membersDao);
 		try{
 			if(session!=null && session.getAttribute("uid")!=""){
-				int bnum= Integer.parseInt(request.getParameter("bnum"));
+				int bnum= Integer.parseInt(request.getParameter("idx"));
 				model.addAttribute("blist", ba.getContents(bnum)); //원글 보기
-//				model.addAttribute("rlist", ba.getReplyList(bnum)); //댓글 보기
-				result="boardContents";
+				result="board/boardContents";
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		return result;
 	}
-	@RequestMapping(value= "/boardlistAjax")
-	public String boardListAjax(HttpServletRequest request, Model model) {
-		System.out.println("진입테스트"+request.getParameter("pageNum"));
-		String result= "home";
-		
-		try {
-			BoardListAction ba= new BoardListAction(membersDao);
-			
-			if(session!=null && session.getAttribute("uid")!=""){
-				int pageNum= (request.getParameter("pageNum")!=null)?Integer.parseInt(request.getParameter("pageNum")):1;
-				model.addAttribute("pageNum", pageNum);
-				model.addAttribute("blist", ba.getBoardList(pageNum));
-				result= "boardlistAjax";
-			}
-		} catch (Exception e){
-			e.printStackTrace(); 
-		}		
-		return result;
-	}
+
 }
