@@ -1,18 +1,12 @@
 package com.vaps.dao;
 
-// 주의!!!! insert할때는 insert!!!
 // selectlist => 레코드가 여러개일때
 // selectone => 레코드가 한개일때~
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.mybatis.spring.support.SqlSessionDaoSupport;
-
 import com.vaps.bean.BoardList;
-import com.vaps.bean.BoardWrite;
 import com.vaps.bean.Members;
 
 public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface {
@@ -71,7 +65,7 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 	}
 	
 	public BoardList getContentsModi(int b_num) {
-		// 게시글 내용 한글 수정
+		// 게시글 내용 한글 수정폼으로 전달
 		BoardList ba = getSqlSession().selectOne("MembersInterface.getContents", b_num);
 		String str=ba.getB_contents();
 		str=str.replaceAll("<br>", "\r\n");
@@ -79,9 +73,15 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 		ba.setB_contents(str);
 		return ba;
 	}
+	
+	@Override
+	public int setContentsModi(BoardList wr) {
+		// 게시글 내용 수정 과정 처리
+		return getSqlSession().update("MembersInterface.setContentsModi", wr);
+	}
 
 	@Override
-	public int wrBoard(BoardWrite wr) {
+	public int wrBoard(BoardList wr) {
 		// TODO Auto-generated method stub
 		return getSqlSession().insert("MembersInterface.setContents", wr);
 	}

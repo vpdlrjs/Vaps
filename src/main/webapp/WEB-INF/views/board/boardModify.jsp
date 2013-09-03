@@ -11,6 +11,7 @@
 	href="${pageContext.request.contextPath}/css/bt.css" />
 <script>
 	function formCheck() {
+				
 		var length = document.forms[0].length - 1;
 
 		for ( var i = 0; i < length - 1; i++) {
@@ -29,25 +30,28 @@
 	<%@include file="/WEB-INF/views/top/title.jsp"%>
 	<%@include file="/WEB-INF/views/top/menu.jsp"%>
 		<br/>
-	<div style="padding: 1px 20px 30px 60px;">
-		<form action="/board" name="writeFrm" method="post"
-			onsubmit="return formCheck();">
+	<form action="/boardModiContent?id=${blist.b_id}" name="modiFrm" method="post"
+		onsubmit="return formCheck();">
+		<div style="padding: 1px 20px 30px 60px;">
 			<table>
 				<tr>
 					<td>제목:</td>
-					<td><input class="inSub" type="text" name="sub" class="button" value="${blist.b_sub}"/></td>
+					<td><input class="inSub" type="text" name="sub" class="button"
+						value="${blist.b_sub}" /></td>
 				</tr>
 				<tr>
 					<td>내용:</td>
-					<td><textarea cols="67" rows="10"  name="contents" class="inArea">${blist.b_contents}</textarea></td>
+					<td><textarea cols="67" rows="10" name="contents"
+							class="inArea">${blist.b_contents}</textarea></td>
 				</tr>
 				<tr>
-					<td colspan=2 align="right"><input class="button" type="submit" value="수정" />
-					<a href="/board" class="button">취소</a></td>
+					<td colspan=2 align="right">
+						<input type="submit" class="button" value="수정" />
+					 	<a href="/board" class="button">취소</a>
+					 </td>
 				</tr>
 			</table>
+		</div>
 		</form>
-	</div>
-
 </body>
 </html>

@@ -7,9 +7,6 @@ TEMPORARY TABLESPACE temp;
 -- 권한 부여 ( 뷰 생성, 시노민 etc)
 GRANT connect, resource, create synonym, create view to vaps; 
 
-
-
-
 ------------------------------------------------------------------
 -- vaps 계정에 접속해서 DB구축
 -- MEMBERS(회원) 테이블 정의
@@ -77,3 +74,6 @@ INSERT INTO MEMBERS VALUES('admin','관리자','jAkdR9RQh/8=','01023235656','서
 
 -- 관리자급 계정 지우기(게시글 삭제 테스트 자기가 쓴 글이 아닐 때)
 DELETE FROM MEMBERS WHERE M_ID='admin';
+
+-- 글쓰기 수정 연습
+UPDATE BOARD SET B_SUB='A', B_CONTENTS='A' WHERE B_NUM=132;

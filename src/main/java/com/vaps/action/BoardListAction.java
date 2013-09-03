@@ -1,12 +1,7 @@
 package com.vaps.action;
 
 import java.util.List;
-
-
-
-
 import com.vaps.bean.BoardList;
-import com.vaps.bean.BoardWrite;
 import com.vaps.dao.MembersDAO;
 import com.vaps.userclass.Paging;
 
@@ -39,11 +34,17 @@ public class BoardListAction {
 	}
 	
 	public BoardList getContentsModi(int bNum) {
-		// 게시판 내용 수정
+		// 게시판 내용 수정할 내용 (한글깨짐)처리
 		return dao.getContentsModi(bNum);
 	}
 	
-	public int writeBoard(BoardWrite wr) {
+	public int setContentsModi(BoardList wr) {
+		// 게시판 내용 수정처리
+		return dao.setContentsModi(wr);
+	}
+	
+	
+	public int writeBoard(BoardList wr) {
 		// 게시글 등록
 		return dao.wrBoard(wr);
 	}
@@ -52,6 +53,4 @@ public class BoardListAction {
 		// 게시글 번호 지우기
 		return dao.delContents(bNum);
 	}
-
-
 }
