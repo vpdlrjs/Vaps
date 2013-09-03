@@ -1,3 +1,5 @@
+--------------------------------------------------------------------
+-- 프로젝트용 오라클 계정 생성
 -- vaps 계정 생성 , sys나 system계정에서 수행
 CREATE USER vaps IDENTIFIED BY 1111
 DEFAULT TABLESPACE users
@@ -5,8 +7,11 @@ TEMPORARY TABLESPACE temp;
 -- 권한 부여 ( 뷰 생성, 시노민 etc)
 GRANT connect, resource, create synonym, create view to vaps; 
 
--- vaps 계정에 접속해서 DB구축
 
+
+
+------------------------------------------------------------------
+-- vaps 계정에 접속해서 DB구축
 -- MEMBERS(회원) 테이블 정의
 CREATE TABLE MEMBERS(
   M_ID NVARCHAR2(20),
@@ -21,7 +26,7 @@ CREATE TABLE MEMBERS(
  -- MEMBERS를 M으로 줄여서(별명)
  CREATE OR REPLACE SYNONYM M FOR MEMBERS;
 
-
+-------------------------------------------------------------------
 -- 게시판 (현재는 답글 기능 없는거)
 CREATE SEQUENCE BOARD_SEQ;
 
@@ -37,35 +42,13 @@ CREATE TABLE BOARD(
 
 CREATE SYNONYM B FOR BOARD;
 
+ -- 회원탈퇴시 쓴 게시글 다 지우기(제약조건)
 ALTER TABLE BOARD
 ADD CONSTRAINTS B_WRITER_FK FOREIGN KEY(B_ID)
-REFERENCES MEMBERS(M_ID);
+REFERENCES MEMBERS(M_ID) ON DELETE CASCADE;
 
--- 게시물 출력 예제 데이터
--- MEMBERS 테이블에 admin이라는 계정이 들어 있어야 정보가 입력된다.
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글1','test게시글1', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글2','a게시글2', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글3','test게시글3', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글4','a게시글4', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글5','test게시글5', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글6','a게시글6', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글7','test게시글7', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글8','a게시글8', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글9','test게시글9', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글10','a게시글10', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글11','test게시글11', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글12','a게시글12', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글13','te게시글13st', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글14','게시글14a', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글15','te게시글15st', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글16','게시글16a', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글17','t게시글17est', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글18','게시글18a', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글19','tes게시글19t', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글20','게시글20a', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글21','te게시글21st', DEFAULT, DEFAULT);
-INSERT INTO B VALUES(BOARD_SEQ.NEXTVAL, 'admin', '게시글22','a게시글22', DEFAULT, DEFAULT);
-
+---------------------------------------------------------------------------------------------------
+-- 게시글 뷰 만들기
 -- [게시글 출력 문제] rownum을 직접 참조를 못해 뷰를 생성해야할수 밖에 없다
 -- 최근에 쓴 게시글이 맨위로 보여지기 위해서 정렬을 해야한다.
 
@@ -86,3 +69,11 @@ SELECT ROWNUM AS B_NO,
             B_DATE,
             B_READCOUNT
 FROM BLISTDESC; 
+
+------------------------------------------------------------------
+-- 관리자 계정은 sql로 직접생성해야 한다.
+-- 관리자급 계정 생성, 패스워드 a
+INSERT INTO MEMBERS VALUES('admin','관리자','jAkdR9RQh/8=','01023235656','서울시 강남구',DEFAULT, 1);
+
+-- 관리자급 계정 지우기(게시글 삭제 테스트 자기가 쓴 글이 아닐 때)
+DELETE FROM MEMBERS WHERE M_ID='admin';

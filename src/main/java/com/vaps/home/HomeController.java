@@ -119,7 +119,12 @@ public class HomeController {
 			
 			if(members!=null){
 				session=request.getSession();
-				session.setAttribute("uid", members.getM_id());
+				session.setAttribute("id", members.getM_id()); //세션에 아이디 저장, name=id
+				session.setAttribute("auth", members.getM_auth()); //세션에 권한 저장, name=auth
+				//로그인하면서 세션저장시 내용확인
+//				System.out.println("접속된id :"+(String)session.getAttribute("id"));
+//				System.out.println("접속된auth :"+(Integer)session.getAttribute("auth"));
+				//
 				model.addAttribute("members",members);
 				boardList(request,model); // 로그인 뒤에 게시판으로 직행하지 않게함
 			}else{
@@ -142,7 +147,7 @@ public class HomeController {
 		try{
 			BoardListAction ba=new BoardListAction(membersDao);
 			
-			if(session!=null && session.getAttribute("uid")!=""){
+			if(session!=null && session.getAttribute("id")!=""){
 				session=request.getSession();
 				
 				int pageNum=(request.getParameter("pageNum")!=null)? Integer.parseInt(request.getParameter("pageNum")):1;
@@ -162,11 +167,13 @@ public class HomeController {
 	@RequestMapping(value="/contents")
 	public String listContents(HttpServletRequest request, Model model){
 		String result="contents";
+		session=request.getSession();
 		BoardListAction ba=new BoardListAction(membersDao);
 		try{
-			if(session!=null && session.getAttribute("uid")!=""){
+			if(session!=null && session.getAttribute("id")!=""){
 				int bnum= Integer.parseInt(request.getParameter("idx"));
 				model.addAttribute("blist", ba.getContents(bnum)); //원글 보기
+				session.setAttribute("idx", Integer.parseInt(request.getParameter("idx"))); //세션에 게시물 번호 저장, name=idx
 				result="board/boardContents";
 			}
 		}catch(Exception e){
@@ -188,9 +195,9 @@ public class HomeController {
 			// DB로 한글 저장시 깨짐 해결함
 			request.setCharacterEncoding("UTF-8");
 			BoardListAction ba= new BoardListAction(membersDao);
-			if(session!=null && session.getAttribute("uid")!=""){
+			if(session!=null && session.getAttribute("id")!=""){
 				BoardWrite wr= new BoardWrite();
-				wr.setB_id((String)session.getAttribute("uid"));
+				wr.setB_id((String)session.getAttribute("id"));
 				wr.setB_sub(request.getParameter("sub"));
 				
 				String str=request.getParameter("contents");
@@ -200,6 +207,7 @@ public class HomeController {
 				wr.setB_contents(str);
 				
 				PrintWriter out=res.getWriter();
+				res.setContentType("text/html;charset=UTF-8"); //한글처리코드
 				if(ba.writeBoard(wr)==1){
 					// 글쓰기 성공하고 /board로 가기 위해서 스크립트 코드 사용
 					// String result ="/board/boardlist"; 이런식으로 가면 정상작동안됨
@@ -210,6 +218,7 @@ public class HomeController {
 				else{
 					// 실패시 홈으로 이동
 					out.println("<script>");
+					out.println("alert('게시글 쓰기 실패')"); 
 					out.println("location.href='/'");
 					out.println("</script>");
 				}
@@ -219,5 +228,38 @@ public class HomeController {
 			e.printStackTrace(); 
 		}		
 	}
-
+	
+	//게시글 삭제
+	@RequestMapping(value="/boardDelContent")
+	public void boardDelContent(HttpServletRequest req, HttpServletResponse res, Model model){
+		// 게시글 번호를 가져와 사용자 본인 확인or 관리자 확인 후 삭제
+		BoardListAction ba=new BoardListAction(membersDao);
+		try{
+			// sql 으로 글쓴이 확인 과정을 거쳐야 한다.
+			res.setContentType("text/html;charset=UTF-8"); //한글처리코드
+			PrintWriter out=res.getWriter();
+			int bnum= (Integer)session.getAttribute("idx"); //게시글 번호 가져오기
+			String id = (String)req.getParameter("id"); // 게시글 쓴 사람 id 가져오기
+			
+			if(session!=null && session.getAttribute("id")!=""){
+				//현재 접속한 id와 게시글을 올린 id와 비교, 관리자 auth=1은 무조건 삭제
+				if(id.equals((String)session.getAttribute("id"))||(Integer)session.getAttribute("auth")==1){
+					if(ba.delContents(bnum)==1){//게시글 삭제 쿼리 들어가기	
+						// 페이지 이동, 성공
+						out.println("<script>");
+						out.println("location.href='/board'");
+						out.println("</script>");
+					}
+				}else{
+					// 페이지 이동, 실패
+					out.println("<script>");
+					out.println("alert('게시글 삭제 실패')");
+					out.println("location.href='/board'");
+					out.println("</script>");
+				}
+			}
+		}catch (Exception e){
+			e.printStackTrace(); 
+		}
+	}
 }

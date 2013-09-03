@@ -76,7 +76,9 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 		return getSqlSession().insert("MembersInterface.setContents", wr);
 	}
 
-	
-
-
+	@Override
+	public int delContents(int b_num) {
+		// 게시글 삭제
+		return getSqlSession().delete("MembersInterface.delContents", b_num);
+	}
 }

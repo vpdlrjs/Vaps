@@ -41,4 +41,9 @@ public class BoardListAction {
 		// 게시글 등록
 		return dao.wrBoard(wr);
 	}
+	
+	public int delContents(int bNum) {
+		// 게시글 번호 지우기
+		return dao.delContents(bNum);
+	}
 }

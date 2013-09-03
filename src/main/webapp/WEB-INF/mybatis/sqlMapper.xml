@@ -50,5 +50,9 @@
 	
 	<insert id="setContents" parameterType="BoardWrite">	
 		INSERT INTO BOARD VALUES(BOARD_SEQ.NEXTVAL, #{b_id}, #{b_sub},#{b_contents}, DEFAULT, DEFAULT)
-	</insert>	
+	</insert>
+	
+	<delete id="delContents" parameterType="Integer">
+		DELETE FROM B WHERE B_NUM=#{b_num}
+	</delete>	
 </mapper>
