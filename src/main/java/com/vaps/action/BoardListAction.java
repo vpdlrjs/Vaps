@@ -26,7 +26,7 @@ public class BoardListAction {
 		int pageNum=pagenum; //현재페이지
 		int listCount= 10; // 한화면에 게시글 수
 		int pageCount= 5; //한 그룹
-		String pageName="boardlist"; //게시판의 종류
+		String pageName="board"; //게시판의 종류
 		
 		Paging paging=new Paging(maxNum, pageNum, listCount, pageCount, pageName);
 		return paging.makePageGroup();
