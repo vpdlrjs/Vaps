@@ -69,6 +69,16 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 		// TODO Auto-generated method stub
 		return getSqlSession().selectOne("MembersInterface.getContents", b_num);
 	}
+	
+	public BoardList getContentsModi(int b_num) {
+		// 게시글 내용 한글 수정
+		BoardList ba = getSqlSession().selectOne("MembersInterface.getContents", b_num);
+		String str=ba.getB_contents();
+		str=str.replaceAll("<br>", "\r\n");
+		str=str.replaceAll("&nbsp;", "\u0020");
+		ba.setB_contents(str);
+		return ba;
+	}
 
 	@Override
 	public int wrBoard(BoardWrite wr) {

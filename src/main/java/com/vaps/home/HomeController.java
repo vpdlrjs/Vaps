@@ -262,4 +262,45 @@ public class HomeController {
 			e.printStackTrace(); 
 		}
 	}
+	
+	//게시글 수정 폼
+	@RequestMapping(value="/boardModiContentForm")
+	public String boardModiContentForm(HttpServletRequest req, HttpServletResponse res, Model model){
+		session=req.getSession();
+		res.setContentType("text/html;charset=UTF-8"); //한글처리코드
+		BoardListAction ba=new BoardListAction(membersDao);
+		try{
+			if(session!=null && session.getAttribute("id")!=""){
+				int bnum= Integer.parseInt(req.getParameter("idx"));
+				model.addAttribute("blist", ba.getContentsModi(bnum)); //원글 보기, 함수를 따라가 보면 줄바꿈 처리를 했음
+				session.setAttribute("idx", Integer.parseInt(req.getParameter("idx"))); //세션에 게시물 번호 저장, name=idx
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return "board/boardModify";
+	}
+	
+	
+	
+	
+	//게시글 수정
+	@RequestMapping(value="/boardModiContent")
+	public String boardModiContent(HttpServletRequest req, HttpServletResponse res, Model model){
+		//해당 글번호를 쿼리로 불러와 jsp에 뿌리고 수정한 내용을 다시 update를 시킨다.
+		String result="home";
+		session=req.getSession();
+		BoardListAction ba=new BoardListAction(membersDao);
+		try{
+			if(session!=null && session.getAttribute("id")!=""){
+				int bnum= Integer.parseInt(req.getParameter("idx"));
+				model.addAttribute("blist", ba.getContents(bnum)); //원글 보기
+				session.setAttribute("idx", Integer.parseInt(req.getParameter("idx"))); //세션에 게시물 번호 저장, name=idx
+				result="board/boardModify";
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

@@ -17,4 +17,5 @@ public interface MemberInterface {
 	public int memInsert(Members mb);
 	public int wrBoard(BoardWrite wr);
 	public int delContents(int b_num);
+	public BoardList getContentsModi(int b_num);
 }
