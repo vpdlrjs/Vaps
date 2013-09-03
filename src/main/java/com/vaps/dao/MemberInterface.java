@@ -14,4 +14,5 @@ public interface MemberInterface {
 	public int getPageCount();
 	public BoardList getContents(int bnum);
 	public int memInsert(Members mb);
+	public int confirmId(String id);
 }

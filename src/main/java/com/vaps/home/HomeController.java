@@ -1,10 +1,14 @@
 package com.vaps.home;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -17,6 +21,9 @@ import com.vaps.dao.MembersDAO;
 import com.vaps.bean.Members;
 import com.vaps.action.BoardListAction;
 import com.vaps.action.MembersAction;
+import com.vaps.action.Action;
+import com.vaps.action.ActionForward;
+import com.vaps.action.MemberIDCheckAction;
 
 
 /**
@@ -27,6 +34,8 @@ import com.vaps.action.MembersAction;
 							  // jsp에서 ${members.id} 이런식으로 세션영역의 변수를 호출할 수 있다. sessionScope.members.id 대신함
 public class HomeController {
 	private HttpSession session;
+	
+	
 	
 	// mybatis-context.xml 에서 연결되었다.
 	@Resource(name="membersDao") //@Autowired 도 왼쪽과  같은 자동주입이나 권장하지 않는 방법이다. 가능하면 @Resource를 쓰라
@@ -97,7 +106,7 @@ public class HomeController {
 	}
 	
 	// login 성공
-	@RequestMapping(value="access")
+	@RequestMapping(value="/access")
 	public String mInfo(HttpServletRequest request, Model model) throws Exception{
 		String result="home";
 		
@@ -125,7 +134,18 @@ public class HomeController {
 
 		return result;
 	}
-
+	// 아이디 중복 
+	@RequestMapping(value="/MemberIDCheckAction")
+	public String idchck(HttpServletRequest request, Model model) throws Exception{
+		String result="./login/member_idchk";
+		//Map<String,String> map=new HashMap<String, String>();
+		//map.put("id", request.getParameter("id"));
+		int x=0;
+		x=membersDao.confirmId(request.getParameter("id"));
+	    model.addAttribute("xx", x);
+	    
+		return result;
+	}
 //--------------------------------------------------------------
 // 게시판 작업
 	//게시판(질답용도)
