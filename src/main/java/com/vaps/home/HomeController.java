@@ -1,9 +1,15 @@
 package com.vaps.home;
 
+<<<<<<< HEAD
 import java.io.PrintWriter;
+=======
+import java.io.IOException;
+>>>>>>> a4fd403521f99e9862e5570a2987384377c938cb
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Resource;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -13,10 +19,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import com.vaps.action.BoardListAction;
 import com.vaps.action.MembersAction;
+<<<<<<< HEAD
 import com.vaps.bean.BoardList;
 import com.vaps.bean.Members;
 import com.vaps.dao.MembersDAO;
 import com.vaps.userclass.EncryptionEncoding;
+=======
+import com.vaps.action.Action;
+import com.vaps.action.ActionForward;
+import com.vaps.action.MemberIDCheckAction;
+
+>>>>>>> a4fd403521f99e9862e5570a2987384377c938cb
 
 /**
  * Handles requests for the application home page.
@@ -27,7 +40,13 @@ import com.vaps.userclass.EncryptionEncoding;
 // jsp에서 ${members.id} 이런식으로 세션영역의 변수를 호출할 수 있다. sessionScope.members.id 대신함
 public class HomeController {
 	private HttpSession session;
+<<<<<<< HEAD
 
+=======
+	
+	
+	
+>>>>>>> a4fd403521f99e9862e5570a2987384377c938cb
 	// mybatis-context.xml 에서 연결되었다.
 	@Resource(name = "membersDao")
 	// @Autowired 도 왼쪽과 같은 자동주입이나 권장하지 않는 방법이다. 가능하면 @Resource를 쓰라
@@ -95,12 +114,22 @@ public class HomeController {
 	}
 
 	// login 성공
+<<<<<<< HEAD
 	@RequestMapping(value = "access")
 	public String mInfo(HttpServletRequest request, Model model) throws Exception {
 		String result = "home";
 
 		Members members = new Members();
 		Map<String, String> map = new HashMap<String, String>();
+=======
+	@RequestMapping(value="/access")
+	public String mInfo(HttpServletRequest request, Model model) throws Exception{
+		String result="home";
+		
+		Members members=new Members();
+		
+		Map<String,String> map=new HashMap<String, String>();
+>>>>>>> a4fd403521f99e9862e5570a2987384377c938cb
 		map.put("id", request.getParameter("id"));
 		// DB에 저장된 패스워드가 암호화가 되어 있어 로그인할때 똑같이 암호화한뒤 저장된 패스워드랑 비교해야한다.
 		map.put("pwd", ee.TripleDesEncoding(request.getParameter("pwd")));
@@ -125,8 +154,24 @@ public class HomeController {
 
 		return result;
 	}
+<<<<<<< HEAD
 
 // --------------------------------------------------------------
+=======
+	// 아이디 중복 
+	@RequestMapping(value="/MemberIDCheckAction")
+	public String idchck(HttpServletRequest request, Model model) throws Exception{
+		String result="./login/member_idchk";
+		//Map<String,String> map=new HashMap<String, String>();
+		//map.put("id", request.getParameter("id"));
+		int x=0;
+		x=membersDao.confirmId(request.getParameter("id"));
+	    model.addAttribute("xx", x);
+	    
+		return result;
+	}
+//--------------------------------------------------------------
+>>>>>>> a4fd403521f99e9862e5570a2987384377c938cb
 // 게시판 작업
 	// 게시판(질답용도)
 	@RequestMapping(value = "/board")
