@@ -7,7 +7,8 @@
 		<result property="bdate" column="BDATE" jdbcType="DATE" javaType="java.sql.Date" /> 
 	</resultMap>
 	<resultMap type="al" id="al" />
-	<resultMap type="Map" id="Map" />	
+	<resultMap type="Map" id="Map" />
+
 	
 	<!-- 회원가입 sql -->
 	<insert id="memInsert" parameterType="members">
@@ -46,4 +47,15 @@
 		SELECT * FROM BLIST WHERE B_NUM=#{B_NUM}
 	</select>
 	
+	<insert id="setContents" parameterType="board">	
+		INSERT INTO BOARD VALUES(BOARD_SEQ.NEXTVAL, #{b_id}, #{b_sub},#{b_contents}, DEFAULT, DEFAULT)
+	</insert>
+
+	<delete id="delContents" parameterType="Integer">
+		DELETE FROM B WHERE B_NUM=#{b_num}
+	</delete>
+
+	<update id="setContentsModi" parameterType="board">
+		UPDATE BOARD SET B_SUB=#{b_sub}, B_CONTENTS=#{b_contents} WHERE B_NUM=#{b_num}
+	</update>
 </mapper>

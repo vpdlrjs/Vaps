@@ -1,6 +1,5 @@
 package com.vaps.dao;
 
-// 주의!!!! insert할때는 insert!!!
 // selectlist => 레코드가 여러개일때
 // selectone => 레코드가 한개일때~
 
@@ -11,11 +10,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
+<<<<<<< HEAD
+=======
 
 import javax.sql.DataSource;
 
+>>>>>>> a4fd403521f99e9862e5570a2987384377c938cb
 import org.mybatis.spring.support.SqlSessionDaoSupport;
-
 import com.vaps.bean.BoardList;
 import com.vaps.bean.Members;
 
@@ -46,13 +47,11 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 	
 	@Override
 	public int getLoginResult(Map<String, String> map) {
-		// TODO Auto-generated method stub
 		return getSqlSession().selectOne("MembersInterface.getLoginResult", map);
 	}
 
 	@Override
 	public Members getMemberInfo(String id) {
-		// TODO Auto-generated method stub
 		return getSqlSession().selectOne("MembersInterface.getMemberInfo", id);
 	}
 	//login - end
@@ -64,26 +63,47 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 	// 게시판 관련 로직 sql 문장을 요청한다 sqlMapper.xml 으로...
 	@Override
 	public List<BoardList> getBoardList(int pageNum) {
-		// TODO Auto-generated method stub
 		return getSqlSession().selectList("MembersInterface.getBoardList", pageNum);
 	}
 
 	@Override
 	public int getPageCount() {
-		// TODO Auto-generated method stub
 		return getSqlSession().selectOne("MembersInterface.getPageCount");
 	}
 
 	@Override
-	public BoardList getContents(int B_NUM) {
-		// TODO Auto-generated method stub
-		return getSqlSession().selectOne("MembersInterface.getContents", B_NUM);
+	public BoardList getContents(int b_num) {
+		return getSqlSession().selectOne("MembersInterface.getContents", b_num);
 	}
+<<<<<<< HEAD
+	
+	public BoardList getContentsModi(int b_num) {
+		// 게시글 내용 한글 수정폼으로 전달
+		return getSqlSession().selectOne("MembersInterface.getContents", b_num);
+	}
+	
+	@Override
+	public int setContentsModi(BoardList wr) {
+		// 게시글 내용 수정 과정 처리
+		return getSqlSession().update("MembersInterface.setContentsModi", wr);
+	}
+
+	@Override
+	public int wrBoard(BoardList wr) {
+		return getSqlSession().insert("MembersInterface.setContents", wr);
+	}
+=======
 	//아이디 중복
 	public int confirmId(String id){
 		return getSqlSession().selectOne("MembersInterface.confirmId", id);
 	}
 	
 	
+>>>>>>> a4fd403521f99e9862e5570a2987384377c938cb
 
+	@Override
+	public int delContents(int b_num) {
+		// 게시글 삭제
+		return getSqlSession().delete("MembersInterface.delContents", b_num);
+	}
 }

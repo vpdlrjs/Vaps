@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+server.xml 파일안에 한글처리 코드 추가!
+64번째 라인부근에 있음
+    <Connector connectionTimeout="20000" port="8088" protocol="HTTP/1.1" redirectPort="8443" useBodyEncodingForURI="true"/>
+
+ -->
 <!--
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
