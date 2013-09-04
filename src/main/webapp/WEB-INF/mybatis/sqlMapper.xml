@@ -23,6 +23,10 @@
 	<select id="getMemberInfo" resultType="members" parameterType="java.lang.String">
 		SELECT M_ID, M_NICK, M_PWD, M_PHONE, M_ADDR, M_POINT, M_AUTH FROM M WHERE M_ID=#{id}
 	</select>
+	<!-- 아이디중복체크 -->
+	<select id="confirmId" resultType="Integer" parameterType="java.lang.String">
+		SELECT count(*) FROM M WHERE M_ID=#{id}	
+	</select>
 	
 	<!-- 게시판 처리 sql -->
 		<!-- 

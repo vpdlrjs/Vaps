@@ -17,12 +17,12 @@
 			if (document.forms[0][i].value == null
 					|| document.forms[0][i].value == "") {
 
-				alert(document.forms[0][i].name + "을/를 입력하세요.");
+				alert(document.forms[0][i].name + "(을/를) 입력하세요.");
 				document.forms[0][i].focus();
 				return false;
 			}
 		}
-	}
+		
 </script>
 </head>
 <body>

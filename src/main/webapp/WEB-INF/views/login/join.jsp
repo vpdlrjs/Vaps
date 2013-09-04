@@ -10,6 +10,7 @@
 <link rel="styleSheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/bt.css" />
 <script>
+
 	function formCheck() {
 		var length = document.forms[0].length - 1;
 
@@ -23,6 +24,19 @@
 			}
 		}
 	}
+		function openConfirmId(joinFrm){			
+			var id=joinFrm.id.value;
+			var url="./MemberIDCheckAction?id="+joinFrm.id.value;
+			
+			if(id.length == 0){
+				alert("아이디를 입력하세요.");
+				joinFrm.id.focus();
+				return false;
+			}
+			 open(url, "confirm", "width=400,height=200,location=no" );
+		
+		}  
+		
 </script>
 </head>
 <body>
@@ -36,7 +50,10 @@
 			<table>
 				<tr>
 					<td>아이디:</td>
-					<td><input class="intxt" type="text" name="id" /></td>
+					<td><input class="intxt" type="text" name="id" />
+					<input type="button" name="confirm_id" value="중복확인" 
+								onclick="openConfirmId(this.form)" />
+					</td>
 				</tr>
 				<tr>
 					<td>닉네임:</td>
@@ -61,6 +78,9 @@
 			</table>
 		</form>
 	</div>
+
+
+
 
 </body>
 </html>
