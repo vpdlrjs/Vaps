@@ -1,6 +1,7 @@
 package com.vaps.action;
 
 import java.util.List;
+
 import com.vaps.bean.BoardList;
 import com.vaps.dao.MembersDAO;
 import com.vaps.userclass.Paging;
@@ -35,22 +36,42 @@ public class BoardListAction {
 	
 	public BoardList getContentsModi(int bNum) {
 		// 게시판 내용 수정할 내용 (한글깨짐)처리
-		return dao.getContentsModi(bNum);
+		//반드시 필요한 코드(없으면 html 형식으로 출력됨)
+		BoardList bl = dao.getContentsModi(bNum);
+		
+		String str = bl.getB_contents();
+		str = str.replaceAll("<br>", "\r\n");
+		str = str.replaceAll("&nbsp;", "\u0020");
+		bl.setB_contents(str);
+		
+		return bl;
 	}
 	
 	public int setContentsModi(BoardList wr) {
 		// 게시판 내용 수정처리
+		convertDBcontents(wr); // 내용저장 처리
 		return dao.setContentsModi(wr);
 	}
 	
 	
 	public int writeBoard(BoardList wr) {
 		// 게시글 등록
+		convertDBcontents(wr); // 내용저장 처리
 		return dao.wrBoard(wr);
 	}
 	
 	public int delContents(int bNum) {
 		// 게시글 번호 지우기
 		return dao.delContents(bNum);
+	}
+	
+	
+	// add method
+	public void convertDBcontents(BoardList wr){
+		// db에 줄바꿈과 공백 처리
+		String str = wr.getB_contents();
+		str = str.replaceAll("\r\n", "<br>");
+		str = str.replaceAll("\u0020", "&nbsp;");
+		wr.setB_contents(str);
 	}
 }

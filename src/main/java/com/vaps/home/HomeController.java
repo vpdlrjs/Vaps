@@ -187,14 +187,9 @@ public class HomeController {
 			BoardListAction ba = new BoardListAction(membersDao);
 			if (session != null && session.getAttribute("id") != "") {
 				BoardList wr = new BoardList();
-				wr.setB_id((String) session.getAttribute("id"));
-				wr.setB_sub(request.getParameter("sub"));
-
-				String str = request.getParameter("contents");
-				// 줄바꿈, 공백 두개 이상! ; textarea에서만 되는 내용
-				str = str.replaceAll("\r\n", "<br>");
-				str = str.replaceAll("\u0020", "&nbsp;");
-				wr.setB_contents(str);
+				wr.setB_id((String) session.getAttribute("id")); // 게시자
+				wr.setB_sub(request.getParameter("sub")); // 제목
+				wr.setB_contents(request.getParameter("contents")); //내용 wr에 저장
 
 				PrintWriter out = res.getWriter();
 				res.setContentType("text/html;charset=UTF-8"); // 한글처리코드
@@ -285,7 +280,7 @@ public class HomeController {
 			req.setCharacterEncoding("UTF-8");
 			res.setContentType("text/html;charset=UTF-8"); // 한글처리코드
 
-			BoardList bl = new BoardList();
+			BoardList wr = new BoardList();
 			BoardListAction ba = new BoardListAction(membersDao);
 			PrintWriter out = res.getWriter();
 			
@@ -294,16 +289,12 @@ public class HomeController {
 			if (session != null && session.getAttribute("id") != "") {
 				if (id.equals(session.getAttribute("id"))
 						|| (Integer) session.getAttribute("auth") == 1) {
-					bl.setB_num((Integer) session.getAttribute("idx")); // idx
-					bl.setB_id((String) session.getAttribute("id")); // id
-					bl.setB_sub(req.getParameter("sub")); // title
+					wr.setB_num((Integer) session.getAttribute("idx")); // idx
+					wr.setB_id((String) session.getAttribute("id")); // id
+					wr.setB_sub(req.getParameter("sub")); // title
+					wr.setB_contents(req.getParameter("contents"));
 
-					String str = req.getParameter("contents");
-					str = str.replaceAll("\r\n", "<br>");
-					str = str.replaceAll("\u0020", "&nbsp;");
-					bl.setB_contents(str); // contents
-
-					ba.setContentsModi(bl);
+					ba.setContentsModi(wr);
 					out.println("<script>");
 					out.println("location.href='/board'");
 					out.println("</script>");

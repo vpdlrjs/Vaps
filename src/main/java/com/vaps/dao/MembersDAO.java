@@ -30,13 +30,11 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 	
 	@Override
 	public int getLoginResult(Map<String, String> map) {
-		// TODO Auto-generated method stub
 		return getSqlSession().selectOne("MembersInterface.getLoginResult", map);
 	}
 
 	@Override
 	public Members getMemberInfo(String id) {
-		// TODO Auto-generated method stub
 		return getSqlSession().selectOne("MembersInterface.getMemberInfo", id);
 	}
 	//login - end
@@ -48,30 +46,22 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 	// 게시판 관련 로직 sql 문장을 요청한다 sqlMapper.xml 으로...
 	@Override
 	public List<BoardList> getBoardList(int pageNum) {
-		// TODO Auto-generated method stub
 		return getSqlSession().selectList("MembersInterface.getBoardList", pageNum);
 	}
 
 	@Override
 	public int getPageCount() {
-		// TODO Auto-generated method stub
 		return getSqlSession().selectOne("MembersInterface.getPageCount");
 	}
 
 	@Override
 	public BoardList getContents(int b_num) {
-		// TODO Auto-generated method stub
 		return getSqlSession().selectOne("MembersInterface.getContents", b_num);
 	}
 	
 	public BoardList getContentsModi(int b_num) {
 		// 게시글 내용 한글 수정폼으로 전달
-		BoardList ba = getSqlSession().selectOne("MembersInterface.getContents", b_num);
-		String str=ba.getB_contents();
-		str=str.replaceAll("<br>", "\r\n");
-		str=str.replaceAll("&nbsp;", "\u0020");
-		ba.setB_contents(str);
-		return ba;
+		return getSqlSession().selectOne("MembersInterface.getContents", b_num);
 	}
 	
 	@Override
@@ -82,7 +72,6 @@ public class MembersDAO extends SqlSessionDaoSupport implements MemberInterface 
 
 	@Override
 	public int wrBoard(BoardList wr) {
-		// TODO Auto-generated method stub
 		return getSqlSession().insert("MembersInterface.setContents", wr);
 	}
 
