@@ -46,7 +46,7 @@
 				<td>auth</td>
 				<td>${members.m_auth }</td>
 			</tr>
-		</table>
+			</table>
 	</div>
 
 </body>
